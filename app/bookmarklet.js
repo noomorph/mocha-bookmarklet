@@ -12,6 +12,7 @@
             mochaJS:    CDN + "mocha/1.20.1/mocha.js",
             jquery:     CDN + "jquery/1.11.1/jquery.min.js",
             webconsole: "//eeroan.github.io/WebConsole-reporter/WebConsole.js",
+            consolePolyfill: "https://raw.githubusercontent.com/paulmillr/console-polyfill/master/index.js"
         },
         load = {
             el: function (tagName, attrs) {
@@ -22,7 +23,7 @@
                     tag[key] = attrs[key];
                 }
 
-                document.head.appendChild(tag);
+                document.getElementsByTagName('head')[0].appendChild(tag);
             },
             jquery: function () {
                 if (!window.$) {
@@ -46,6 +47,10 @@
                 }});
             }
         };
+
+    if (!window.console || !console.group) {
+        load.el("SCRIPT", { src: urls.consolePolyfill });
+    }
 
     load.chai(function (chai) {
         chai.should();
@@ -76,13 +81,14 @@
                     src: url,
                     onload: function () {
                         mocha.run();
+                    },
+                    onerror: function () {
+                        console.error("could not load: " + url);
                     }
                 });
             };
 
-            if (window.console && console.info) {
-                console.info('mocha bookmarklet is running');
-            }
+            console.info('mocha bookmarklet is running');
         });
     });
 }());
