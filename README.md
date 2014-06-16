@@ -41,3 +41,6 @@ The resulting file will be here: ```dist/bookmarklet.js```.
 npm -g install gulp
 ```
 
+# TODO
+
+* get CDN url for the console polyfill
