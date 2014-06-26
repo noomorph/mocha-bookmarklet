@@ -25,20 +25,21 @@
     function run() {
         load = new Loader();
 
-        var code = window.prompt("Enter spec URL or paste its code here:").trim(),
-            url = code.match(/^https?:/) ? code : '';
-
-        if (!code && mocha._lastSpecUrl) {
-            url = mocha._lastSpecUrl;
-        }
+        var prompted = window.prompt("Enter spec URL or paste its code here:").trim();
 
         setup(function () {
+            var code = prompted || mocha._lastSpec || '',
+                url = code.match(/^https?:/) ? code : '';
+
             document.getElementById("mocha").innerHTML = '';
             mocha.suite.suites = [];
             mocha.suite.tests = [];
 
+            if (prompted) {
+                mocha._lastSpec = prompted;
+            }
+
             if (url) {
-                mocha._lastSpecUrl = url;
                 load.js(url, function () {
                     mocha.run();
                 });
