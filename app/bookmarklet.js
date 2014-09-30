@@ -11,7 +11,13 @@
         load.css(options.mc) // mocha.css
             .css(options.bc) // bookmarklet.css
             .js(options.cj, function () { // chai.js
-                chai[options.chai](); // chai.should(); / chai.assert(); / chai.expect();
+                if (options.chai === 'should') {
+                    chai.should();
+                } else if (options.chai === 'expect') {
+                    window.expect = chai.expect;
+                } else if (options.chai === 'assert') {
+                    window.assert = chai.assert;
+                }
 
                 load.js(options.mj, function () { // mocha.js
                     load.el("DIV", "BODY", { id: "mocha" });
@@ -78,9 +84,9 @@
     run();
 }({
     bc: "//noomorph.github.io/mocha-bookmarklet/dist/mocha-bookmarklet.css",
-    mc: "//cdnjs.cloudflare.com/ajax/libs/mocha/1.20.1/mocha.css",
-    cj: "//cdnjs.cloudflare.com/ajax/libs/chai/1.9.1/chai.min.js",
-    mj: "//cdnjs.cloudflare.com/ajax/libs/mocha/1.20.1/mocha.js",
+    mc: "//noomorph.github.io/mocha-bookmarklet/dist/mocha.css",
+    cj: "//noomorph.github.io/mocha-bookmarklet/dist/chai.js",
+    mj: "//noomorph.github.io/mocha-bookmarklet/dist/mocha.js",
     mocha: 'bdd',
-    chai: 'should'
+    chai: 'expect'
 }));

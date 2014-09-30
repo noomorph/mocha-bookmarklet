@@ -1,5 +1,4 @@
-// Generated on 2014-06-15 using generator-bookmarklet 0.2.0
-
+/*jshint camelcase:false*/
 'use strict';
 
 var buffer = require('buffer');
@@ -17,7 +16,7 @@ gulp.task('scripts', function () {
     gulp.src('app/{,*/}*.js')
         .pipe(gulpJshint())
         .pipe(gulpJshint.reporter(jshintStylish))
-        .pipe(gulpUglify())
+        .pipe(gulpUglify({ compress: { negate_iife: false }}))
         .pipe(gulpConcat('bookmarklet.js'))
         .pipe(map(function (file, cb) {
             file.contents = buffer.Buffer.concat([header, file.contents]);
