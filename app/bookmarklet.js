@@ -10,20 +10,22 @@
 
         load.css(options.mc) // mocha.css
             .css(options.bc) // bookmarklet.css
-            .js(options.cj, function () { // chai.js
-                if (options.chai === 'should') {
-                    chai.should();
-                } else if (options.chai === 'expect') {
-                    window.expect = chai.expect;
-                } else if (options.chai === 'assert') {
-                    window.assert = chai.assert;
-                }
+            .js(options.sj, function () { // sinon.js
+                load.js(options.cj, function () { // chai.js
+                    if (options.chai === 'should') {
+                        chai.should();
+                    } else if (options.chai === 'expect') {
+                        window.expect = chai.expect;
+                    } else if (options.chai === 'assert') {
+                        window.assert = chai.assert;
+                    }
 
-                load.js(options.mj, function () { // mocha.js
-                    load.el("DIV", "BODY", { id: "mocha" });
-                    mocha.checkLeaks();
-                    mocha.setup(options.mocha); // e.g., mocha.setup('bdd');
-                    done();
+                    load.js(options.mj, function () { // mocha.js
+                        load.el("DIV", "BODY", { id: "mocha" });
+                        mocha.checkLeaks();
+                        mocha.setup(options.mocha); // e.g., mocha.setup('bdd');
+                        done();
+                    });
                 });
             });
     }
@@ -87,6 +89,7 @@
     mc: "//noomorph.github.io/mocha-bookmarklet/dist/mocha.css",
     cj: "//noomorph.github.io/mocha-bookmarklet/dist/chai.js",
     mj: "//noomorph.github.io/mocha-bookmarklet/dist/mocha.js",
+    sj: "//noomorph.github.io/mocha-bookmarklet/dist/sinon.js",
     mocha: 'bdd',
     chai: 'expect'
 }));
